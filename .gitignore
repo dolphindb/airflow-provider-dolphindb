@@ -1,0 +1,11 @@
+/.venv*/
+__pycache__/
+/dist/
+/airflow_provider_dolphindb.egg-info/
+.pytest_cache/
+/logs/
+/airflow.cfg
+/airflow.db
+/airflow-webserver.pid
+/webserver_config.py
+/standalone_admin_password.txt
