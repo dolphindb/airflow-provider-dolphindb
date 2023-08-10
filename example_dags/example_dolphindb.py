@@ -37,11 +37,11 @@ with DAG(
         task_id="create_table",
         dolphindb_conn_id="dolphindb_default",
         sql="""
-            dbPath = "dfs://valuedb"
-            if(existsDatabase(dbPath))
+            dbPath = "dfs://example_value_db"
+            if (existsDatabase(dbPath))
                 dropDatabase(dbPath)
-            t = table(100:100,`id`time`vol,[SYMBOL,DATE, INT])
-            db=database(dbPath,VALUE, `APPL`IBM`AMZN)
+            t  = table(100:100, `id`time`vol, [SYMBOL,DATE, INT])
+            db = database(dbPath, VALUE, `APPL`IBM`AMZN)
             pt = db.createPartitionedTable(t, `pt, `id)
           """,
           dag = dag,
@@ -57,7 +57,4 @@ with DAG(
     )
     # [END howto_operator_dolphindb_external_file]
 
-# from tests.system.utils import get_test_run  # noqa: E402
-
-# # Needed to run the example DAG with pytest (see: tests/system/README.md#run_via_pytest)
-# test_run = get_test_run(dag)
+    create_table >> insert_data

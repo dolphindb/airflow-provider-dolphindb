@@ -1,0 +1,9 @@
+dbPath = "dfs://example_value_db"
+db = database(dbPath)
+pt = loadTable(db, `pt)
+
+pt.append!(table(
+    string(1..10)          as id,
+    2023.01.01..2023.01.10 as time,
+    501..510               as vol
+))

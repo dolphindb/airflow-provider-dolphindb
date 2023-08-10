@@ -24,8 +24,8 @@ def get_provider_info():
         "package-name": "airflow-provider-dolphindb",
         "name": "DolphinDB",
         "description": "Apache Airflow DolphinDB provider containing Operators.",
-        "hook-class-names": [
-            "airflow_provider_dolphindb.hooks.dolphindb.DolphinDBHook",
-        ],
-        # "versions": [__version__],
+        "connection-types": [{
+            "connection-type": "dolphindb",
+            "hook-class-name": "airflow_provider_dolphindb.hooks.dolphindb.DolphinDBHook",
+        }],
     }
