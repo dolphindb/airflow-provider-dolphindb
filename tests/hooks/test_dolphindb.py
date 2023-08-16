@@ -48,7 +48,7 @@ class TestDolphinDBHookConn:
         self.test_extras = [
             ["enableSSL", "true"],
             ["enableASYNC", "true"],
-            ["keepAliveTime", "30"],
+            ["keepAliveTime", 30],
             ["enableChunkGranularityConfig", "true"],
             ["compress", "true"],
             ["enablePickle", "true"],
