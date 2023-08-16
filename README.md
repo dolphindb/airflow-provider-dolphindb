@@ -1,44 +1,38 @@
-# airflow-provider-dolphindb
+# Airflow-provider-dolphindb
+## Installing airflow-provider-dolphindb
 
-## Install airflow-provider-dolphindb
-
-Since the package has not been uploaded to PyPI, it is not yet possible to install airflow-provider-dolphindb through PyPI
+At the moment, it is not possible to install airflow-provider-dolphindb via PyPI since the package has not been uploaded yet. However, you can install it in the future using the following command:
 
 ```sh
-# will be realized in the future
 pip install airflow-provider-dolphindb
 ```
-## Example Dags
 
-This example will create a database and create a table in it, then execute an external .dos script file to insert data.
+## Example DAGs
 
-Copy the [example_dolphindb.py](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/example_dolphindb.py) file to your dags folder. If you use the default airflow configuration `airflow.cfg`, the dags folder is in `AIRFLOW_HOME/dags`, you may need to create it yourself.
+To create a database and a table in it, and then execute an external .dos script file to insert data, follow these steps:
 
-Copy the [insert_data.dos](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/insert_data.dos) file to the same directory as `example_dolphindb.py`
+1. Copy the [example_dolphindb.py](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/example_dolphindb.py) file to your DAGs folder. If you use the default airflow configuration `airflow.cfg`, you may need to create the DAGs folder yourself, which is located in `AIRFLOW_HOME/dags`.
+1. Copy the [insert_data.dos](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/insert_data.dos) file to the same directory as `example_dolphindb.py`.
+1. Start your DolphinDB server on port 8848.
+1. Start airflow in the development environment:
 
-Then start your DolphinDB server in 8848 port.
+    ```sh
+    cd /your/project/dir/
+    # Only absolute paths are accepted
+    export AIRFLOW_HOME=/your/project/dir/
+    export AIRFLOW_CONN_DOLPHINDB_DEFAULT="dolphindb://admin:123456@127.0.0.1:8848"
+    python -m airflow standalone
+    ```
 
-Then simply start airflow in the development environment
+Please refer to the [Official documentation for the production environment](https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/production-deployment.html).
 
-```sh
-cd /your/project/dir/
-# Only absolute paths are accepted
-export AIRFLOW_HOME=/your/project/dir/
-export AIRFLOW_CONN_DOLPHINDB_DEFAULT="dolphindb://admin:123456@127.0.0.1:8848"
-python -m airflow standalone
-```
-
-> Please refer to the official documentation for the production environment
-> https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/production-deployment.html
-
-Now, the example_dolphindb dag can be found in your airflow web page. You can try to trigger it.
+Now, you can find the example_dolphindb DAG on your airflow web page. You can try to trigger it.
 
 ## Developer Documentation
 
-### Install Apache Airflow
+### Installing Apache Airflow
 
-> refer to https://airflow.apache.org/docs/apache-airflow/stable/start.html
-
+Refer to https://airflow.apache.org/docs/apache-airflow/stable/start.html for further details on this topic.
 
 ```sh
 # It is recommended to use the current project directory as the airflow working directory
@@ -46,7 +40,7 @@ cd /your/source/dir/airflow-provider-dolphindb
 # Only absolute paths are accepted
 export AIRFLOW_HOME=/your/source/dir/airflow-provider-dolphindb
 
-# install apache-airflow 2.6.3
+# Install apache-airflow 2.6.3
 AIRFLOW_VERSION=2.6.3
 PYTHON_VERSION="$(python --version | cut -d " " -f 2 | cut -d "." -f 1-2)"
 CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${AIRFLOW_VERSION}/constraints-${PYTHON_VERSION}.txt"
@@ -54,21 +48,23 @@ CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${A
 pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
 ```
 
-Additional, you may need to install kubernetes to eliminate errors in airflow routines
+Additionally, you may need to install Kubernetes to eliminate errors in airflow routines:
 
 ```sh
 pip install kubernetes
 ```
 
-### Install airflow-provider-dolphindb for test
+### Installing airflow-provider-dolphindb for testing
 
-> refer to https://pip.pypa.io/en/stable/cli/pip_install/#install-editable
+Refer to https://pip.pypa.io/en/stable/cli/pip_install/#install-editable for further details on this topic.
 
 ```sh
 python -m pip install -e .
 ```
 
-### test
+### Testing
+
+Run the following commands to validate the installation procedure above.
 
 ```sh
 cd /your/source/dir/airflow-provider-dolphindb
@@ -78,7 +74,9 @@ export AIRFLOW_CONN_DOLPHINDB_DEFAULT="dolphindb://admin:123456@127.0.0.1:8848"
 pytest
 ```
 
-### Package airflow-provider-dolphindb
+### Packaging airflow-provider-dolphindb
+
+Run the following command.
 
 ```sh
 python -m build
