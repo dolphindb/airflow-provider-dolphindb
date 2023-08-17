@@ -1,7 +1,7 @@
 # Airflow-provider-dolphindb
 ## Installing airflow-provider-dolphindb
 
-At the moment, it is not possible to install airflow-provider-dolphindb via PyPI since the package has not been uploaded yet. However, you can install it in the future using the following command:
+
 
 ```sh
 pip install airflow-provider-dolphindb
