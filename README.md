@@ -1,7 +1,10 @@
 # Airflow-provider-dolphindb
+
+## What is airflow-provider-dolphindb
+
+Airflow-provider-dolphindb provides Hooks and Operators to run scripts and files composed of DolphinDB scripts, which usually end with .dos extension.
+
 ## Installing airflow-provider-dolphindb
-
-
 
 ```sh
 pip install airflow-provider-dolphindb
@@ -12,21 +15,40 @@ pip install airflow-provider-dolphindb
 To create a database and a table in it, and then execute an external .dos script file to insert data, follow these steps:
 
 1. Copy the [example_dolphindb.py](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/example_dolphindb.py) file to your DAGs folder. If you use the default airflow configuration `airflow.cfg`, you may need to create the DAGs folder yourself, which is located in `AIRFLOW_HOME/dags`.
-1. Copy the [insert_data.dos](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/insert_data.dos) file to the same directory as `example_dolphindb.py`.
-1. Start your DolphinDB server on port 8848.
-1. Start airflow in the development environment:
 
-    ```sh
-    cd /your/project/dir/
-    # Only absolute paths are accepted
-    export AIRFLOW_HOME=/your/project/dir/
-    export AIRFLOW_CONN_DOLPHINDB_DEFAULT="dolphindb://admin:123456@127.0.0.1:8848"
-    python -m airflow standalone
-    ```
+2. Copy the [insert_data.dos](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/insert_data.dos) file to the same directory as `example_dolphindb.py`.
 
-Please refer to the [Official documentation for the production environment](https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/production-deployment.html).
+3. Start your DolphinDB server on port 8848.
+
+4. Start airflow in the development environment:
+   
+   ```sh
+   cd /your/project/dir/
+   # Only absolute paths are accepted
+   export AIRFLOW_HOME=/your/project/dir/
+   export AIRFLOW_CONN_DOLPHINDB_DEFAULT="dolphindb://admin:123456@127.0.0.1:8848"
+   python -m airflow standalone
+   ```
+
+Please refer to the https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/production-deployment.html.
+
+5. Configure DolphinDB datasource
+
+Click the menu, *Admin -> Connections* ->  **+** icon, add a connection.
+
+![dolphindb-datasource.png](./images/dolphindb-datasource.png)
+
+Enter the following content:
+
+    Connect Id: *dolphindb_default*
+
+    Connection Type: *DolphinDB*
+
+Please fill in the other options according to your actual environment. Click the test button to **test** the connection. If successful, it will output "Connection successfully tested.",   press the **save** button to save the connection..
 
 Now, you can find the example_dolphindb DAG on your airflow web page. You can try to trigger it.
+
+![example-dag.png](./images/example-dag.png)
 
 ## Developer Documentation
 
