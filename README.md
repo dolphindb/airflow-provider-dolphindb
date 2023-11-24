@@ -1,8 +1,6 @@
 # Airflow-provider-dolphindb
 
-## What is airflow-provider-dolphindb
-
-Airflow-provider-dolphindb provides Hooks and Operators to run scripts and files composed of DolphinDB scripts, which usually end with .dos extension.
+The Airflow-provider-dolphindb enables the execution of DolphinDB scripts (.dos files) within Apache Airflow workflows. It provides custom DolphinDB Hooks and Operators that allow users to seamlessly run DolphinDB scripts including insertion of data, ETL transformations, data modeling, etc.
 
 ## Installing airflow-provider-dolphindb
 
@@ -10,51 +8,55 @@ Airflow-provider-dolphindb provides Hooks and Operators to run scripts and files
 pip install airflow-provider-dolphindb
 ```
 
-## Example DAGs
+## Running a DAG Example
 
-To create a database and a table in it, and then execute an external .dos script file to insert data, follow these steps:
+The following example demonstrates the DolphinDB provider with a sample DAG for creating a DolphinDB database and table, and executing a .dos script to insert data. Follow these steps to run it:
 
-1. Copy the [example_dolphindb.py](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/example_dolphindb.py) file to your DAGs folder. If you use the default airflow configuration `airflow.cfg`, you may need to create the DAGs folder yourself, which is located in `AIRFLOW_HOME/dags`.
+1. Copy [example_dolphindb.py](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/example_dolphindb.py) and [insert_data.dos](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/insert_data.dos) to your DAGs folder. If you use the default airflow configuration *airflow.cfg*, you may need to create the DAGs folder yourself at *AIRFLOW_HOME/dags*.
 
-2. Copy the [insert_data.dos](https://github.com/dolphindb/airflow-provider-dolphindb/blob/main/example_dags/insert_data.dos) file to the same directory as `example_dolphindb.py`.
+2. Start your DolphinDB server on port 8848.
 
-3. Start your DolphinDB server on port 8848.
-
-4. Start airflow in the development environment:
+3. Navigate to your Airflow project directory and start Airflow in development mode:
    
    ```sh
-   cd /your/project/dir/
+   cd /path/to/airflow/project
    # Only absolute paths are accepted
    export AIRFLOW_HOME=/your/project/dir/
    export AIRFLOW_CONN_DOLPHINDB_DEFAULT="dolphindb://admin:123456@127.0.0.1:8848"
    python -m airflow standalone
    ```
 
-Please refer to the https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/production-deployment.html.
+For detailed instructions, refer to [Airflow - Production Deployment](https://airflow.apache.org/docs/apache-airflow/stable/administration-and-deployment/production-deployment.html).
 
-5. Configure DolphinDB datasource
+4. Configure a DolphinDB connection
 
-Click the menu, *Admin -> Connections* ->  **+** icon, add a connection.
+To enable communication between Airflow and DolphinDB, you first need to configure a DolphinDB connection:
+
+(1) Click *Admin -> Connections* ->  **+** icon to add a connection.
 
 ![dolphindb-datasource.png](./images/dolphindb-datasource.png)
 
-Enter the following content:
+(2) Enter the following values in the form:
 
-    Connect Id: *dolphindb_default*
+    Connect Id: **dolphindb_default**
 
-    Connection Type: *DolphinDB*
+    Connection Type: **DolphinDB**
 
-Please fill in the other options according to your actual environment. Click the test button to **test** the connection. If successful, it will output "Connection successfully tested.",   press the **save** button to save the connection..
+(3) Fill in any additional connection details according to your environment. 
 
-Now, you can find the example_dolphindb DAG on your airflow web page. You can try to trigger it.
+Click the **test** button to test the connection. If successful, it will output "Connection successfully tested". Press the **save** button to save the connection.
+
+Once the connection is created, the example_dolphindb DAG will be able to interface with DolphinDB automatically using this connection. Try triggering the example DAG and inspecting the task logs to see the DolphinDB scripts executing using the configured connection.
 
 ![example-dag.png](./images/example-dag.png)
 
-## Developer Documentation
+## Developer Guides
+
+This guide covers key steps for developers working on and testing the Airflow DolphinDB provider:
 
 ### Installing Apache Airflow
 
-Refer to https://airflow.apache.org/docs/apache-airflow/stable/start.html for further details on this topic.
+Refer to [Airflow - Quick Start](https://airflow.apache.org/docs/apache-airflow/stable/start.html) for further details.
 
 ```sh
 # It is recommended to use the current project directory as the airflow working directory
@@ -70,7 +72,7 @@ CONSTRAINT_URL="https://raw.githubusercontent.com/apache/airflow/constraints-${A
 pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
 ```
 
-Additionally, you may need to install Kubernetes to eliminate errors in airflow routines:
+You may need to install Kubernetes to eliminate errors in airflow routines:
 
 ```sh
 pip install kubernetes
@@ -78,15 +80,17 @@ pip install kubernetes
 
 ### Installing airflow-provider-dolphindb for testing
 
-Refer to https://pip.pypa.io/en/stable/cli/pip_install/#install-editable for further details on this topic.
+To use the DolphinDB provider in test workflows, install the library in editable mode:
 
 ```sh
 python -m pip install -e .
 ```
 
-### Testing
+Refer to [pip documentation](https://pip.pypa.io/en/stable/cli/pip_install/#install-editable) for further details.
 
-Run the following commands to validate the installation procedure above.
+### Running Provider Tests
+
+Validate the changes through the test suite:
 
 ```sh
 cd /your/source/dir/airflow-provider-dolphindb
@@ -96,9 +100,9 @@ export AIRFLOW_CONN_DOLPHINDB_DEFAULT="dolphindb://admin:123456@127.0.0.1:8848"
 pytest
 ```
 
-### Packaging airflow-provider-dolphindb
+### Building a Package
 
-Run the following command.
+Bundle the provider into a package using:
 
 ```sh
 python -m build
